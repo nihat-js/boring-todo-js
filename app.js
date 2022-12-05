@@ -20,9 +20,18 @@
 var todoBodyItems = document.querySelector('.todo-body-items');
 var todoBodyTabs = document.querySelector('.todo-body-tabs');
 var todoBodyItem = todoBodyItems.getElementsByTagName('div');
-todoBodyItem: Array;
-todoBodyTabs.addEventListener('click', changeTab);
+const todoModalAdd = document.querySelector('.todo-modal-add')
+const btnAdd = document.getElementById('btn-add')
+const btnAddModal = document.getElementById('btn-add-modal')
 
+const randomIdeas = ['Buy Umbrella', 'Drop off the school', 'Play PES2013', 'Play blackjack', 'Go for a walk', 'Watch Fight Club']
+
+
+
+todoBodyItem: Array;
+todoBodyTabs.addEventListener('click', changeTab)
+btnAdd.addEventListener('click', btnAddClick)
+btnAddModal.addEventListener('click', btnAddModalClick)
 
 if (localStorage.getItem('Todo') !== null) {
     Todo = JSON.parse(localStorage.getItem('Todo'));
@@ -157,3 +166,34 @@ function changeTab(e) {
 //   div.append(h2, imgEdit, imgRemove)
 //   document.querySelector('.todo-body').append(div)
 // }
+
+document.body.addEventListener('click', bodyClick)
+
+
+function bodyClick(e) {
+    if (!todoModalAdd.classList.contains('d-none') && e.target.classList == 'todo-modal-add') {
+        todoModalAdd.classList.add('d-none')
+    }
+}
+
+
+function btnAddClick() {
+    todoModalAdd.classList.remove('d-none')
+    todoModalAdd.querySelector('input').placeholder = randomIdeas[Math.floor(randomIdeas.length * Math.random())]
+
+}
+
+function btnAddModalClick() {
+    let input = todoModalAdd.querySelector('input')
+    let lastId = Todo[Todo.currentTab].length
+    Todo[Todo.currentTab].push({
+        id: lastId + 1,
+        title: input.value,
+        date: Date('d-m-y'),
+        time: Date('h-m-s'),
+        state: 0,
+    })
+    loadItems();
+    updateLocalStorage()
+    todoModalAdd.classList.add('d-none')
+}
