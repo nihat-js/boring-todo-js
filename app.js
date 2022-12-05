@@ -1,3 +1,5 @@
+// inspired from https://www.pinterest.com/pin/90001692545108823/
+
 const btnAdd = document.querySelector('.todo-head-form button')
 const inpText = document.querySelector('.todo-head-form input')
 
