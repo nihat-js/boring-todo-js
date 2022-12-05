@@ -1,7 +1,10 @@
 // inspired from https://www.pinterest.com/pin/90001692545108823/
 // const Todo = {
-//     active: [{ id: 0, title: 'Write CSS Code ', date: '19/01/2022', time: '12:04' },
-//     { title: 'Learn Code ', date: '19/01/2022', time: '12:04' },],
+//     active: [
+//         { id: 0, title: 'Check Clasroom', date: '19/01/2022', time: '12:04', state: 0, },
+//         { id: 1, title: 'Create Todo App', date: '19/01/2022', time: '12:04', state: 0, },
+//         { id: 1, title: 'Learn Quick Sort', date: '19/01/2022', time: '12:04', state: 0, },
+//     ],
 //     done: [
 //         { id: 0, title: 'Learn TypeScript ', date: '19/01/2022', time: '12:04' },
 //         { id: 1, title: 'Practise JQuery ', date: '19/01/2022', time: '12:04' },
@@ -10,7 +13,10 @@
 //     currentTab: 'active',
 // }
 
-var Todo;
+// localStorage.setItem('Todo', JSON.stringify(Todo))
+
+
+// var Todo;
 var todoBodyItems = document.querySelector('.todo-body-items');
 var todoBodyTabs = document.querySelector('.todo-body-tabs');
 var todoBodyItem = todoBodyItems.getElementsByTagName('div');
@@ -40,10 +46,17 @@ function loadItems() {
         mainDiv.classList.add('item')
         mainDiv.dataset.id = t.id
 
-        img.src = "./img/square-empty.svg";
+        img.src = t.status == 0 ? "./img/not-checked.svg" : "./img/checked.svg"
         img.classList.add('item-icon');
         img.addEventListener('click', () => {
-            img.src = "./img/checked.svg"
+            if (t.status == 0) {
+                img.src = "./img/checked.svg"
+                t.status = 1
+            } else {
+                img.src = "./img/not-checked.svg"
+                t.status = 0
+            }
+            updateLocalStorage()
         })
 
         input.value = t.title;
@@ -51,9 +64,13 @@ function loadItems() {
         input.classList.add('item-input')
 
         btnDelete.innerText = "Delete"
+        btnDelete.classList.add('item-delete')
+
         btnEdit.innerText = 'Edit';
+        btnEdit.classList.add('item-edit')
+
         btnSave.innerText = 'Save';
-        btnSave.classList.add('d-none')
+        btnSave.classList.add('item-save', 'd-none')
 
         btnEdit.addEventListener('click', () => {
             btnEdit.classList.add('d-none')
