@@ -41,13 +41,16 @@ body{
     color : #fff;
     border-bottom: 10px solid var(--main-border);
     border-radius: 10px 10px 0 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
 }
-.todo-head-title{  margin-top: 2.25rem;}
-
-
+.todo-head-title{ position: relative;  margin-top: 2.25rem; text-align: center;}
+.todo-head-title img {
+    position: absolute;
+    right: 0 ;
+    width: 30px;
+    height: 30px;
+    cursor:pointer;
+}
 .todo-head-form{
     max-width: 600px;
     margin: auto;
@@ -79,22 +82,50 @@ body{
 .todo-body {
     max-width: 700px;
     margin: auto;
-    background-color: var(--blue-navy) ;
-    padding: 2rem 1.5rem;
     box-shadow:  0 0 2px 2px rgba(0, 0, 0, 0.25);
     border-radius: 0 0  12px 12px;
 }
-.todo-body-item {
+
+
+.todo-body-tabs{
+    display: flex;
+    border-bottom: 5px solid #222;
+    
+}
+.todo-body-tabs .left , .todo-body-tabs .right{
+    width: 50%;
+    text-align: center;
+    padding: 1rem;
+    cursor: pointer;
+}
+.todo-body-tabs .left{
+    border-right: 2px solid #222;
+    background-color: #f0f0f0;
+    border-bottom: 3px solid #f0f0f0;
+}
+.todo-body-tabs .right{
+    border-bottom: 2px solid #222;
+}
+.todo-body-tabs img {
+    width: 64px;
+    height: 64px;
+}
+
+.todo-body-tabs .active {background-color: #e2e2e2;}
+
+
+.todo-body-items .item {
     position: relative;
     font-size: 1.2rem;
-    background-color: #d9d9d9;
     border-radius: 2px;
-    color : #fff;
+    color : #000;
+    background-color: #666;
     margin-top: 1.5rem;
     padding: 1.25rem 0 ;
     display: flex;
-    
 }
+
+.todo-body-items .item-icon{ width: 30px;}
 
 .todo-body-item-remove{ width: 30px; }
 
