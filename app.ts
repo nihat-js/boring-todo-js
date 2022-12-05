@@ -11,20 +11,32 @@
 //   currentTab: 1,
 // }
 
-let Todo;
-document.querySelector('.todo-body-tabs')!.addEventListener('click', changeTab)
+let Todo: {
+   active: Array<any>,
+   done: Array<any>,
+   currentTab: number,
+};
+
+const todoBodyItems = document.querySelector('.todo-body-items') as HTMLDivElement;
+const todoBodyTabs = document.querySelector('.todo-body-tabs') as HTMLDivElement;
+const todoBodyItem = todoBodyItems.getElementsByTagName('div') as HTMLCollection;
+todoBodyItem: Array<any>;
+
+todoBodyTabs.addEventListener('click', changeTab)
+todoBodyItem.forEach(d => {
+
+});
 
 if (localStorage.getItem('Todo') == null) {
    Todo = JSON.parse(localStorage.getItem('Todo')!)
    loadItems();
-   loadTab();
+   // loadTab();
 }
 
 
 function loadItems() {
    let tab;
    tab = Todo.currentTab === 0 ? Todo.active : Todo.done;
-   const todoBodyItems = document.querySelector('.todo-body-items') as HTMLDivElement;
    todoBodyItems.innerHTML = "";
    tab.forEach(t => {
       let div = document.createElement('div')
@@ -40,13 +52,16 @@ function loadItems() {
    })
 }
 
-function loadTab() {
-   document.querySelectorAll('.todo-body-tabs div').forEach(d => {
-      if (d.dataset.id == Todo.currentTab) {
-         d.classList.add('active')
-      }
-   })
-}
+// function loadTab() {
+//    const tabs = document.querySelectorAll('.todo-head-tabs div') as NodeListOf<HTMLDivElement>;
+//    tabs.forEach(d => {
+//       let id = d.dataset.id;
+//       if (id ==  Todo.currentTab) {
+//          d.classList.add('active')
+//       }
+//    })
+// }
+
 
 
 function changeTab(e) {

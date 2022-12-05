@@ -119,14 +119,35 @@ body{
     font-size: 1.2rem;
     border-radius: 2px;
     color : #000;
-    background-color: #666;
     margin-top: 1.5rem;
     padding: 1.25rem 0 ;
     display: flex;
+    justify-content: space-between;
+}
+.todo-body-items .item-input {
+    padding: .6rem .2rem;
+    border: none;
+    border-bottom: 3px solid #f2593b;
+    background: none;
+    outline: none;
+    font-size: 1.2rem;
+    cursor: default;
 }
 
-.todo-body-items .item-icon{ width: 30px;}
+.todo-body-items .item div:nth-child(1){
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+}
 
-.todo-body-item-remove{ width: 30px; }
+.todo-body-items .item-icon{ width: 30px; margin-right: 1rem;}
+
+.todo-body-items .item-delete{
+    height: 100%;
+}
+
+.d-none{
+    display: none;
+}
 
 

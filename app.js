@@ -1,44 +1,105 @@
 // inspired from https://www.pinterest.com/pin/90001692545108823/
 // const Todo = {
-//   active: [{ title: 'Write CSS Code ', date: '19/01/2022', time: '12:04' },
-//   { title: 'Learn Code ', date: '19/01/2022', time: '12:04' },],
-//   done: [
-//     { title: 'Learn TypeScript ', date: '19/01/2022', time: '12:04' },
-//     { title: 'Practise JQuery ', date: '19/01/2022', time: '12:04' },
-//     { title: 'Read documentation of Bootstrap ', date: '19/01/2022', time: '12:04' },
-//   ],
-//   currentTab: 1,
+//     active: [{ id: 0, title: 'Write CSS Code ', date: '19/01/2022', time: '12:04' },
+//     { title: 'Learn Code ', date: '19/01/2022', time: '12:04' },],
+//     done: [
+//         { id: 0, title: 'Learn TypeScript ', date: '19/01/2022', time: '12:04' },
+//         { id: 1, title: 'Practise JQuery ', date: '19/01/2022', time: '12:04' },
+//         { id: 2, title: 'Read documentation of Bootstrap ', date: '19/01/2022', time: '12:04' },
+//     ],
+//     currentTab: 'active',
 // }
+
 var Todo;
-document.querySelector('.todo-body-tabs').addEventListener('click', changeTab);
-if (localStorage.getItem('Todo') == null) {
+var todoBodyItems = document.querySelector('.todo-body-items');
+var todoBodyTabs = document.querySelector('.todo-body-tabs');
+var todoBodyItem = todoBodyItems.getElementsByTagName('div');
+todoBodyItem: Array;
+todoBodyTabs.addEventListener('click', changeTab);
+
+
+if (localStorage.getItem('Todo') !== null) {
     Todo = JSON.parse(localStorage.getItem('Todo'));
     loadItems();
-    loadTab();
+    // loadTab();
 }
+
 function loadItems() {
-    var tab;
-    tab = Todo.currentTab === 0 ? Todo.active : Todo.done;
-    var todoBodyItems = document.querySelector('.todo-body-items');
+
     todoBodyItems.innerHTML = "";
-    tab.forEach(function (t) {
-        var div = document.createElement('div');
-        var img = document.createElement('img');
-        var h2 = document.createElement('h2');
+    Todo[Todo.currentTab].forEach(function (t) {
+        let mainDiv = document.createElement('div');
+        let firstDiv = document.createElement('div');
+        let secondDiv = document.createElement('div');
+        let img = document.createElement('img');
+        let input = document.createElement('input');
+        let btnDelete = document.createElement('button');
+        let btnEdit = document.createElement('button');
+        let btnSave = document.createElement('button')
+
+        mainDiv.classList.add('item')
+        mainDiv.dataset.id = t.id
+
         img.src = "./img/square-empty.svg";
         img.classList.add('item-icon');
-        h2.innerText = t.title;
-        div.append(img, h2);
-        todoBodyItems.append(div);
+        img.addEventListener('click', () => {
+            img.src = "./img/checked.svg"
+        })
+
+        input.value = t.title;
+        input.setAttribute('readonly', 'true')
+        input.classList.add('item-input')
+
+        btnDelete.innerText = "Delete"
+        btnEdit.innerText = 'Edit';
+        btnSave.innerText = 'Save';
+        btnSave.classList.add('d-none')
+
+        btnEdit.addEventListener('click', () => {
+            btnEdit.classList.add('d-none')
+            btnDelete.classList.add('d-none')
+            btnSave.classList.remove('d-none')
+            input.removeAttribute('readonly')
+            input.focus();
+        })
+
+        btnSave.addEventListener('click', () => {
+            btnEdit.classList.remove('d-none')
+            btnDelete.classList.remove('d-none')
+            btnSave.classList.add('d-none')
+            input.setAttribute('readonly', 'true')
+            Todo[Todo.currentTab].find(x => x.id == mainDiv.dataset.id).title = input.value;
+            updateLocalStorage()
+        })
+
+        btnDelete.addEventListener('click', () => {
+            mainDiv.remove()
+            Todo[Todo.currentTab].splice(Todo[Todo.currentTab].findIndex(x => x.id == mainDiv.dataset.id), 1)
+            updateLocalStorage()
+        })
+
+        firstDiv.append(img, input)
+        secondDiv.append(btnEdit, btnDelete, btnSave)
+        mainDiv.append(firstDiv, secondDiv);
+        todoBodyItems.append(mainDiv);
     });
 }
-function loadTab() {
-    document.querySelectorAll('.todo-body-tabs div').forEach(function (d) {
-        if (d.dataset.id == Todo.currentTab) {
-            d.classList.add('active');
-        }
-    });
+
+
+function updateLocalStorage() {
+    localStorage.setItem('Todo', JSON.stringify(Todo))
 }
+
+
+// function loadTab() {
+//    const tabs = document.querySelectorAll('.todo-head-tabs div') as NodeListOf<HTMLDivElement>;
+//    tabs.forEach(d => {
+//       let id = d.dataset.id;
+//       if (id ==  Todo.currentTab) {
+//          d.classList.add('active')
+//       }
+//    })
+// }
 function changeTab(e) {
     var tabId;
     if (e.target.dataset.id != undefined) {
