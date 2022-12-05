@@ -48,12 +48,15 @@ function loadItems() {
         let secondDiv = document.createElement('div');
         let img = document.createElement('img');
         let input = document.createElement('input');
-        let btnDelete = document.createElement('button');
+
+        let btnMove = document.createElement('move');
         let btnEdit = document.createElement('button');
+        let btnDelete = document.createElement('button');
         let btnSave = document.createElement('button')
 
         mainDiv.classList.add('item')
         mainDiv.dataset.id = t.id
+        mainDiv.draggable = true;
 
         img.src = t.status == 0 ? "./img/not-checked.svg" : "./img/checked.svg"
         img.classList.add('item-icon');
@@ -78,8 +81,20 @@ function loadItems() {
         btnEdit.innerText = 'Edit';
         btnEdit.classList.add('item-edit')
 
+        btnMove.innerText = 'Move';
+        btnMove.classList.add('item-move')
+
         btnSave.innerText = 'Save';
         btnSave.classList.add('item-save', 'd-none')
+
+
+
+        btnMove.addEventListener('dragstart', () => {
+            console.log('Moving');
+            btnMove.addEventListener('move', () => {
+            })
+        })
+
 
         btnEdit.addEventListener('click', () => {
             btnEdit.classList.add('d-none')
@@ -105,7 +120,7 @@ function loadItems() {
         })
 
         firstDiv.append(img, input)
-        secondDiv.append(btnEdit, btnDelete, btnSave)
+        secondDiv.append(btnMove, btnEdit, btnDelete, btnSave)
         mainDiv.append(firstDiv, secondDiv);
         todoBodyItems.append(mainDiv);
     });
