@@ -16,7 +16,7 @@
 // localStorage.setItem('Todo', JSON.stringify(Todo))
 
 
-// var Todo;
+let Todo;
 var todoBodyItems = document.querySelector('.todo-body-items');
 var todoBodyTabs = document.querySelector('.todo-body-tabs');
 var todoBodyItem = todoBodyItems.getElementsByTagName('div');
@@ -37,7 +37,15 @@ if (localStorage.getItem('Todo') !== null) {
     Todo = JSON.parse(localStorage.getItem('Todo'));
     loadItems();
     // loadTab();
+} else {
+    Todo = {
+        active: [],
+        done: [],
+        currentTab: 'active'
+    }
 }
+
+
 
 function loadItems() {
 
@@ -120,7 +128,7 @@ function loadItems() {
         })
 
         firstDiv.append(img, input)
-        secondDiv.append(btnMove, btnEdit, btnDelete, btnSave)
+        secondDiv.append( btnEdit, btnDelete, btnSave)
         mainDiv.append(firstDiv, secondDiv);
         todoBodyItems.append(mainDiv);
     });
@@ -200,7 +208,8 @@ function btnAddClick() {
 
 function btnAddModalClick() {
     let input = todoModalAdd.querySelector('input')
-    let lastId = Todo[Todo.currentTab].length
+    let lastId = Todo[Todo.currentTab][Todo[Todo.currentTab].length ]
+    console.log(lastId)
     Todo[Todo.currentTab].push({
         id: lastId + 1,
         title: input.value,
